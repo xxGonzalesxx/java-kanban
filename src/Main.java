@@ -2,7 +2,7 @@ public class Main {
 
     public static void main(String[] args) {
         System.out.println("Тестируем наше задание...");
-        TaskManager taskManager= new TaskManager();
+        TaskManager taskManager= new InMemoryTaskManager();
         Task task1 = new Task(0,"Покупка продуктов","Купить колу и чипсов",Status.NEW);
         taskManager.createTask(task1);
 
