@@ -11,6 +11,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public List<Task> getAllTasks() {
+
         return new ArrayList<>(tasks.values());
     }
 
@@ -21,6 +22,10 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void deleteAllTasks() {
+        // Удаляем все id задач из истории, затем очищаем map
+        for (Integer id : new ArrayList<>(tasks.keySet())) {
+            historyManager.remove(id);
+        }
         tasks.clear();
     }
 
@@ -46,7 +51,9 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void deleteTaskById(int id) {
+
         tasks.remove(id);
+        historyManager.remove(id);
     }
 
     //  Epic
@@ -57,8 +64,16 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void deleteAllEpics() {
+        // Сначала удаляем эпики и их подзадачи из истории
+        for (Epic epic : new ArrayList<>(epics.values())) {
+            int epicId = epic.getId();
+            historyManager.remove(epicId);
+            for (Integer subId : new ArrayList<>(epic.getSubtaskIds())) {
+                historyManager.remove(subId);
+            }
+        }
         epics.clear();
-        subtasks.clear(); // удаляем и подзадачи
+        subtasks.clear();
     }
 
     @Override
@@ -86,8 +101,12 @@ public class InMemoryTaskManager implements TaskManager {
     public void deleteEpicById(int id) {
         Epic epic = epics.remove(id);
         if (epic != null) {
+            // Удаляем эпик из истории
+            historyManager.remove(id);
+            // Удаляем все его подзадачи и их следы в истории
             for (int subtaskId : epic.getSubtaskIds()) {
                 subtasks.remove(subtaskId);
+                historyManager.remove(subtaskId);
             }
         }
     }
@@ -100,6 +119,11 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void deleteAllSubtasks() {
+        // Удаляем все подзадачи из истории
+        for (Integer id : new ArrayList<>(subtasks.keySet())) {
+            historyManager.remove(id);
+        }
+        // Чистим мапу подзадач и ссылки в эпиках
         subtasks.clear();
         for (Epic epic : epics.values()) {
             epic.clearSubtaskIds();
@@ -137,8 +161,11 @@ public class InMemoryTaskManager implements TaskManager {
         Subtask subtask = subtasks.remove(id);
         if (subtask != null) {
             Epic epic = epics.get(subtask.getEpicId());
-            epic.getSubtaskIds().remove(Integer.valueOf(id));
-            updateEpicStatus(epic);
+            if (epic != null) {
+                epic.getSubtaskIds().remove(Integer.valueOf(id));
+                updateEpicStatus(epic);
+            }
+            historyManager.remove(id);
         }
     }
 
