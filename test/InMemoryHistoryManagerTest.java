@@ -1,5 +1,9 @@
+import managers.InMemoryHistoryManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import tasks.Status;
+import tasks.Subtask;
+import tasks.Task;
 
 import java.util.List;
 
@@ -56,7 +60,7 @@ class InMemoryHistoryManagerTest {
     @Test
     void add_shouldRemoveOldestWhenMoreThan10() {
         for (int i = 1; i <= 11; i++) {
-            historyManager.add(new Task(i, "Task" + i, "Desc" + i, Status.NEW));
+            historyManager.add(new Task(i, "tasks.Task" + i, "Desc" + i, Status.NEW));
         }
 
         List<Task> history = historyManager.getHistory();
