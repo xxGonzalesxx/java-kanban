@@ -5,9 +5,14 @@ import tasks.Subtask;
 import tasks.Task;
 
 import java.util.List;
-// 25.08.2025 сделал interface managers.TaskManager
+
+/**
+ * Интерфейс TaskManager для работы с задачами, эпиками и подзадачами.
+ * 25.08.2025 сделано.
+ */
 public interface TaskManager {
-    // tasks.Task
+
+    // Работа с Task
     List<Task> getAllTasks();
 
     List<Task> getHistory();
@@ -22,7 +27,7 @@ public interface TaskManager {
 
     void deleteTaskById(int id);
 
-    // Работа с tasks.Epic
+    // Работа с Epic
     List<Epic> getAllEpics();
 
     void deleteAllEpics();
@@ -35,7 +40,7 @@ public interface TaskManager {
 
     void deleteEpicById(int id);
 
-    //  Работа с tasks.Subtask
+    // Работа с Subtask
     List<Subtask> getAllSubtasks();
 
     void deleteAllSubtasks();
@@ -48,8 +53,6 @@ public interface TaskManager {
 
     void deleteSubtaskById(int id);
 
-
-
-    // получаем подзадачи tasks.Epic
+    // Получаем подзадачи Epic
     List<Subtask> getSubtasksOfEpic(int epicId);
 }
