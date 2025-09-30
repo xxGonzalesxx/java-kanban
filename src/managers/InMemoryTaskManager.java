@@ -56,6 +56,7 @@ public class InMemoryTaskManager implements TaskManager {
         tasks.remove(id);
     }
 
+
     //  tasks.Epic
     @Override
     public List<Epic> getAllEpics() {
@@ -98,6 +99,7 @@ public class InMemoryTaskManager implements TaskManager {
             }
         }
     }
+
 
     //  tasks.Subtask
     @Override
@@ -163,6 +165,8 @@ public class InMemoryTaskManager implements TaskManager {
         }
         return result;
     }
+
+
     // Вспомогательный метод для пересчёта статуса эпика
     protected void updateEpicStatus(Epic epic) {
         List<Integer> subtaskIds = epic.getSubtaskIds();
@@ -193,4 +197,3 @@ public class InMemoryTaskManager implements TaskManager {
         }
     }
 }
-

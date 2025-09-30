@@ -1,7 +1,8 @@
 package managers;
 
 public class ManagerSaveException extends RuntimeException {
- public ManagerSaveException(String message,Throwable couse){
-     super(message,couse);
- }
+
+    public ManagerSaveException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }
