@@ -1,6 +1,9 @@
 import java.util.List;
+
 // 25.08.2025 сделал interface TaskManager
+
 public interface TaskManager {
+
     // Task
     List<Task> getAllTasks();
 
@@ -29,7 +32,7 @@ public interface TaskManager {
 
     void deleteEpicById(int id);
 
-    //  Работа с Subtask
+    // Работа с Subtask
     List<Subtask> getAllSubtasks();
 
     void deleteAllSubtasks();
@@ -42,8 +45,6 @@ public interface TaskManager {
 
     void deleteSubtaskById(int id);
 
-
-
-    // получаем подзадачи Epic
+    // Получаем подзадачи Epic
     List<Subtask> getSubtasksOfEpic(int epicId);
 }
