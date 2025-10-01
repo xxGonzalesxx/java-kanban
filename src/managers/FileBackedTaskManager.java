@@ -16,7 +16,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     // Сохраняем все задачи в CSV
-    protected void save() {
+    private void save() {
         try (Writer writer = new FileWriter(file)) {
             writer.write("id,type,name,status,description,epic\n"); // заголовок CSV
 
