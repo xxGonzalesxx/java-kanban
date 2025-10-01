@@ -1,12 +1,19 @@
+package managers;
+
+import tasks.Epic;
+import tasks.Status;
+import tasks.Subtask;
+import tasks.Task;
+
 import java.util.*;
 
 public class InMemoryTaskManager implements TaskManager {
-    private final Map<Integer, Task> tasks = new HashMap<>();
-    private final Map<Integer, Epic> epics = new HashMap<>();
-    private final Map<Integer, Subtask> subtasks = new HashMap<>();
-    private final HistoryManager historyManager = Managers.getDefaultHistory();
+    protected final Map<Integer, Task> tasks = new HashMap<>();
+    protected final Map<Integer, Epic> epics = new HashMap<>();
+    protected final Map<Integer, Subtask> subtasks = new HashMap<>();
+    protected final HistoryManager historyManager = Managers.getDefaultHistory();
 
-    private int nextId = 1;
+    protected int nextId = 1;
 
 
     @Override
@@ -49,7 +56,8 @@ public class InMemoryTaskManager implements TaskManager {
         tasks.remove(id);
     }
 
-    //  Epic
+
+    //  tasks.Epic
     @Override
     public List<Epic> getAllEpics() {
         return new ArrayList<>(epics.values());
@@ -92,7 +100,8 @@ public class InMemoryTaskManager implements TaskManager {
         }
     }
 
-    //  Subtask
+
+    //  tasks.Subtask
     @Override
     public List<Subtask> getAllSubtasks() {
         return new ArrayList<>(subtasks.values());
@@ -156,8 +165,10 @@ public class InMemoryTaskManager implements TaskManager {
         }
         return result;
     }
+
+
     // Вспомогательный метод для пересчёта статуса эпика
-    private void updateEpicStatus(Epic epic) {
+    protected void updateEpicStatus(Epic epic) {
         List<Integer> subtaskIds = epic.getSubtaskIds();
         if (subtaskIds.isEmpty()) {
             epic.setStatus(Status.NEW);
@@ -186,4 +197,3 @@ public class InMemoryTaskManager implements TaskManager {
         }
     }
 }
-
