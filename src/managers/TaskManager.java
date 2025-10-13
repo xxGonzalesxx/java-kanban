@@ -55,4 +55,7 @@ public interface TaskManager {
 
     // Получаем подзадачи Epic
     List<Subtask> getSubtasksOfEpic(int epicId);
+
+    //Новый метод 8 спринта - отсортированные задачи по времени
+    List<Task> getPrioritizedTasks();
 }

@@ -6,6 +6,8 @@ import tasks.Task;
 import tasks.Status;
 
 import java.io.*;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
@@ -18,7 +20,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     // Сохраняем все задачи в CSV
     private void save() {
         try (Writer writer = new FileWriter(file)) {
-            writer.write("id,type,name,status,description,epic\n"); // заголовок CSV
+            writer.write("id,type,name,status,description,epic,duration,startTime\n"); // заголовок CSV
 
             for (Task task : getAllTasks()) {
                 writer.write(toString(task) + "\n");
@@ -36,13 +38,15 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     // Преобразуем задачу в строку CSV
     private String toString(Task task) {
-        return String.format("%d,%s,%s,%s,%s,%s",
+        return String.format("%d,%s,%s,%s,%s,%s,%s,%s",
                 task.getId(),
                 task.getType(),
                 task.getName(),
                 task.getStatus(),
                 task.getDescription(),
-                task instanceof Subtask ? ((Subtask) task).getEpicId() : "");
+                task instanceof Subtask ? ((Subtask) task).getEpicId() : "",
+                task.getDuration() != null ? task.getDuration().toMinutes() : "",  // добавляем duration
+                task.getStartTime() != null ? task.getStartTime().toString() : "");
     }
 
     // Преобразуем строку CSV обратно в объект задачи
@@ -53,11 +57,18 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         String name = fields[2];
         Status status = Status.valueOf(fields[3]);
         String description = fields[4];
+        // Читаем новые поля (могут быть пустыми)
+
+        Duration duration = fields.length > 6 && !fields[6].isEmpty() ?
+                Duration.ofMinutes(Long.parseLong(fields[6])) : null;
+        LocalDateTime startTime = fields.length > 7 && !fields[7].isEmpty() ?
+                LocalDateTime.parse(fields[7]) : null;
+
 
         return switch (type) {
-            case "TASK" -> new Task(id, name, description, status);
-            case "EPIC" -> new Epic(id, name, description, status);
-            case "SUBTASK" -> new Subtask(id, name, description, status, Integer.parseInt(fields[5]));
+            case "TASK" -> new Task(id, name, description, status,duration,startTime);
+            case "EPIC" -> new Epic(id, name, description, status,duration,startTime);
+            case "SUBTASK" -> new Subtask(id, name, description, status, Integer.parseInt(fields[5]), duration, startTime);
             default -> throw new IllegalArgumentException("Неизвестный тип задачи: " + type);
         };
     }
