@@ -18,7 +18,6 @@ public class InMemoryTaskManager implements TaskManager {
 
     protected int nextId = 1;
 
-
     @Override
     public List<Task> getAllTasks() {
         return new ArrayList<>(tasks.values());
@@ -60,14 +59,12 @@ public class InMemoryTaskManager implements TaskManager {
         }
     }
 
-
     @Override
     public void deleteTaskById(int id) {
         tasks.remove(id);
     }
 
-
-    //  tasks.Epic
+    // tasks.Epic
     @Override
     public List<Epic> getAllEpics() {
         return new ArrayList<>(epics.values());
@@ -110,8 +107,7 @@ public class InMemoryTaskManager implements TaskManager {
         }
     }
 
-
-    //  tasks.Subtask
+    // tasks.Subtask
     @Override
     public List<Subtask> getAllSubtasks() {
         return new ArrayList<>(subtasks.values());
@@ -232,7 +228,7 @@ public class InMemoryTaskManager implements TaskManager {
         }
     }
 
-    //Проверяем на пересечение задач
+    // Проверяем на пересечение задач
     private boolean isTimeOverlap(Task task1, Task task2) {
         if (task1.getStartTime() == null || task1.getEndTime() == null ||
                 task2.getStartTime() == null || task2.getEndTime() == null) {
@@ -241,6 +237,7 @@ public class InMemoryTaskManager implements TaskManager {
         return task1.getStartTime().isBefore(task2.getEndTime()) &&
                 task2.getStartTime().isBefore(task1.getEndTime());
     }
+
     public boolean hasTimeConflict(Task newTask) {
         if (newTask.getStartTime() == null || newTask.getEndTime() == null) {
             return false; // задача без времени не конфликтует
@@ -262,6 +259,7 @@ public class InMemoryTaskManager implements TaskManager {
 
         return false;
     }
+
     private void calculateEpicTime(Epic epic) {
         List<Subtask> epicSubtasks = getSubtasksOfEpic(epic.getId());
 

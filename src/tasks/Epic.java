@@ -6,25 +6,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Epic extends Task {
-    private List<Integer> subtaskIds;// список ID подзадач
+    private List<Integer> subtaskIds;
     private LocalDateTime endTime;
 
     public Epic(int id, String name, String description, Status status) {
-        super(id, name, description, status,null,null);
+        super(id, name, description, status, null, null);
         this.subtaskIds = new ArrayList<>();
     }
+
     public Epic(int id, String name, String description, Status status, Duration duration, LocalDateTime startTime) {
         super(id, name, description, status, null, null);
         this.subtaskIds = new ArrayList<>();
     }
+
     @Override
     public void setDuration(Duration duration) {
         // Epic игнорирует
     }
+
     @Override
     public void setStartTime(LocalDateTime startTime) {
         // Epic игнорирует
     }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
+    }
+
     public List<Integer> getSubtaskIds() {
         return subtaskIds;
     }
@@ -41,22 +49,21 @@ public class Epic extends Task {
     public TaskType getType() {
         return TaskType.EPIC;
     }
+
     @Override
-    public Duration getDuration(){
+    public Duration getDuration() {
         return null;
-    }
-    @Override
-    public LocalDateTime getStartTime(){
-        return null;
-    }
-    @Override
-    public LocalDateTime getEndTime(){
-        return endTime;
-    }
-    public void setEndTime(LocalDateTime endTime) {
-        this.endTime = endTime;
     }
 
+    @Override
+    public LocalDateTime getStartTime() {
+        return null;
+    }
+
+    @Override
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
 
     @Override
     public String toString() {

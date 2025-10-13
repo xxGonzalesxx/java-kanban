@@ -64,10 +64,9 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         LocalDateTime startTime = fields.length > 7 && !fields[7].isEmpty() ?
                 LocalDateTime.parse(fields[7]) : null;
 
-
         return switch (type) {
-            case "TASK" -> new Task(id, name, description, status,duration,startTime);
-            case "EPIC" -> new Epic(id, name, description, status,duration,startTime);
+            case "TASK" -> new Task(id, name, description, status, duration, startTime);
+            case "EPIC" -> new Epic(id, name, description, status, duration, startTime);
             case "SUBTASK" -> new Subtask(id, name, description, status, Integer.parseInt(fields[5]), duration, startTime);
             default -> throw new IllegalArgumentException("Неизвестный тип задачи: " + type);
         };
