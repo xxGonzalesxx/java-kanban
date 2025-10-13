@@ -25,8 +25,8 @@ public class Task {
         this.name = name;
         this.description = description;
         this.status = status;
-        this.duration=duration;
-        this.startTime=startTime;
+        this.duration = duration;
+        this.startTime = startTime;
     }
 
     public int getId() {
@@ -64,6 +64,7 @@ public class Task {
     public TaskType getType() {
         return TaskType.TASK;
     }
+
     public LocalDateTime getStartTime() {
         return startTime;
     }
@@ -79,8 +80,9 @@ public class Task {
     public void setDuration(Duration duration) {
         this.duration = duration;
     }
-    public LocalDateTime getEndTime(){
-        if (startTime==null || duration==null){
+
+    public LocalDateTime getEndTime() {
+        if (startTime == null || duration == null) {
             return null;
         }
         return startTime.plus(duration);
