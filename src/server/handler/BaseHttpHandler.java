@@ -40,11 +40,12 @@ public class BaseHttpHandler implements HttpHandler {
     protected void sendInternalError(HttpExchange h) throws IOException {
         sendText(h, "{\"error\":\"Внутренняя ошибка сервера\"}", 500);
     }
+
     @Override
     public void handle(HttpExchange exchange) throws IOException {
-        // Базовая реализация - можно оставить пустой или сделать дефолтную
         sendText(exchange, "Method not implemented", 501);
     }
+
     protected String readRequestBody(HttpExchange exchange) throws IOException {
         return new String(exchange.getRequestBody().readAllBytes(), StandardCharsets.UTF_8);
     }
