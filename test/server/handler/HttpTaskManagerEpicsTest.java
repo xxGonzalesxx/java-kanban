@@ -1,4 +1,4 @@
-package test.server.handler;
+package server.handler;
 
 import com.google.gson.Gson;
 import managers.Managers;
@@ -8,6 +8,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import server.HttpTaskServer;
 import tasks.Epic;
+import tasks.EpicDTO;
+import tasks.EpicResponseDTO;
 import tasks.Status;
 
 import java.io.IOException;
@@ -40,8 +42,14 @@ class HttpTaskManagerEpicsTest {
 
     @Test
     void testAddEpic() throws IOException, InterruptedException {
-        Epic epic = new Epic(0, "Test Epic", "Testing epic", Status.NEW);
-        String epicJson = gson.toJson(epic);
+        // Используем DTO вместо прямого Epic
+        EpicDTO epicDTO = new EpicDTO();
+        epicDTO.id = 0;
+        epicDTO.name = "Test Epic";
+        epicDTO.description = "Testing epic";
+        epicDTO.status = Status.NEW;
+
+        String epicJson = gson.toJson(epicDTO);
 
         URI url = URI.create("http://localhost:8080/epics");
         HttpRequest request = HttpRequest.newBuilder()
@@ -68,9 +76,10 @@ class HttpTaskManagerEpicsTest {
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         assertEquals(200, response.statusCode());
 
-        Epic responseEpic = gson.fromJson(response.body(), Epic.class);
-        assertEquals(epic.getId(), responseEpic.getId());
-        assertEquals(epic.getName(), responseEpic.getName());
+        // Используем ResponseDTO для десериализации
+        EpicResponseDTO responseDTO = gson.fromJson(response.body(), EpicResponseDTO.class);
+        assertEquals(epic.getId(), responseDTO.id);
+        assertEquals(epic.getName(), responseDTO.name);
     }
 
     @Test
@@ -86,7 +95,8 @@ class HttpTaskManagerEpicsTest {
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         assertEquals(200, response.statusCode());
 
-        Epic[] epics = gson.fromJson(response.body(), Epic[].class);
+        // Используем ResponseDTO массив для десериализации
+        EpicResponseDTO[] epics = gson.fromJson(response.body(), EpicResponseDTO[].class);
         assertEquals(2, epics.length);
     }
 
