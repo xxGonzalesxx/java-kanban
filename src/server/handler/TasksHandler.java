@@ -35,10 +35,11 @@ public class TasksHandler extends BaseHttpHandler {
                 default:
                     sendBadRequest(exchange, "Метод не поддерживается");
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             handleException(exchange, e);
         }
     }
+
     private void handleGet(HttpExchange exchange) throws IOException {
         String path = exchange.getRequestURI().getPath();
         String[] pathParts = path.split("/");
@@ -51,7 +52,7 @@ public class TasksHandler extends BaseHttpHandler {
             for (Task task : tasks) {
                 responseDTOs.add(new TaskResponseDTO(task));
             }
-            String response = gson.toJson(responseDTOs); // ← сериализуем DTO, а не Task
+            String response = gson.toJson(responseDTOs);
             sendText(exchange, response);
         } else if (pathParts.length == 3) {
             // GET /tasks/{id} - задача по ID
@@ -64,13 +65,14 @@ public class TasksHandler extends BaseHttpHandler {
                 }
                 // Используем DTO для сериализации
                 TaskResponseDTO responseDTO = new TaskResponseDTO(task);
-                String response = gson.toJson(responseDTO); // ← сериализуем DTO, а не Task
+                String response = gson.toJson(responseDTO);
                 sendText(exchange, response);
             } catch (NumberFormatException e) {
                 sendBadRequest(exchange, "Неверный формат ID");
             }
         }
     }
+
     private void handlePost(HttpExchange exchange) throws IOException {
         String body = readRequestBody(exchange);
 
@@ -92,6 +94,7 @@ public class TasksHandler extends BaseHttpHandler {
             handleException(exchange, e);
         }
     }
+
     private void handleDelete(HttpExchange exchange) throws IOException {
         String path = exchange.getRequestURI().getPath();
         String[] pathParts = path.split("/");
@@ -111,5 +114,4 @@ public class TasksHandler extends BaseHttpHandler {
             }
         }
     }
-
 }
