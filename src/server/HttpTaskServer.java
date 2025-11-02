@@ -9,11 +9,11 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 
 public class HttpTaskServer {
-    private static final int PORT = 8080; // ← убрать пробел
+    private static final int PORT = 8080;
     private final HttpServer server;
     private final TaskManager taskManager;
 
-    public HttpTaskServer(TaskManager taskManager) throws IOException { // ← убрать пробел перед (
+    public HttpTaskServer(TaskManager taskManager) throws IOException {
         this.taskManager = taskManager;
         this.server = HttpServer.create(new InetSocketAddress(PORT), 0);
         configureEndpoints();
